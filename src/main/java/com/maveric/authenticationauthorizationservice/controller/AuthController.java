@@ -76,7 +76,7 @@ public class AuthController {
         return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/hello")
+    @GetMapping("auth/hello")
     public String sampleAPI() {
         return "Hello Maveric!";
     }
