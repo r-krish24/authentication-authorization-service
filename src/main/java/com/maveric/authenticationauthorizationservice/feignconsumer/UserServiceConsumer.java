@@ -15,10 +15,10 @@ import java.util.List;
 @FeignClient(name="user-service")
 @Service
 public interface UserServiceConsumer {
-    @GetMapping("users/getUserByEmail/{emailId}")
+    @GetMapping("api/v1/users/getUserByEmail/{emailId}")
     public ResponseEntity<UserDetailsDto> getUserDetailsByEmail(@PathVariable String emailId);
 
-    @PostMapping("users")
+    @PostMapping("api/v1/users")
     public ResponseEntity<UserDetailsDto> createUser(@RequestBody UserDetailsDto userDetailsDto);
 
 }

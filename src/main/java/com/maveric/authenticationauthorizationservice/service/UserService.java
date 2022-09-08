@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
     UserServiceConsumer userServiceConsumer;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserDetailsDto userDetailsDto = UserDetailsDto.builder()
+        /*UserDetailsDto userDetailsDto = UserDetailsDto.builder()
                 ._id("12345")
                 .firstName("Ram")
                 .lastName("Krish")
@@ -33,9 +33,12 @@ public class UserService implements UserDetailsService {
                 .phoneNumber("976482630")
                 .dateOfBirth("1998-09-24")
                 .password("$2a$10$03mlnKjDtEW.LkR8yiyVa.Ro0jJlgIglB8BoJ4K7A8O9z3naw/QCq").build();
-        return new UserPrincipal(userDetailsDto);
-
-       /* ResponseEntity<UserDetailsDto> userDetailsDto = userServiceConsumer.getUserDetailsByEmail(email);
+        return new UserPrincipal(userDetailsDto); */
+        System.out.println("Inside UserService");
+        ResponseEntity<UserDetailsDto> userDetailsDto = userServiceConsumer.getUserDetailsByEmail(email);
+        System.out.println(userDetailsDto.getBody());
+        System.out.println(userDetailsDto.getBody().getEmail());
+        System.out.println(userDetailsDto.getBody().getPassword());
         try {
             if(userDetailsDto.getBody()!=null)
             {
@@ -51,6 +54,6 @@ public class UserService implements UserDetailsService {
         {
             System.out.println("Failed to catch");
             throw new UserNotFoundException(USER_NOT_FOUND_MESSAGE+email);
-        } */
+        }
     }
 }

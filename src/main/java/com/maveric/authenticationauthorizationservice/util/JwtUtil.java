@@ -1,9 +1,8 @@
 package com.maveric.authenticationauthorizationservice.util;
 
+import com.maveric.authenticationauthorizationservice.dto.GateWayResponseDto;
 import com.maveric.authenticationauthorizationservice.model.UserPrincipal;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +48,22 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, UserPrincipal userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public GateWayResponseDto validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            GateWayResponseDto gateWayResponseDto = new GateWayResponseDto(true,extractAllClaims(token));
+            return gateWayResponseDto;
+        } catch (SignatureException e) {
+            System.out.println("Invalid JWT signature trace: {}"+ e);
+        } catch (MalformedJwtException e) {
+            System.out.println("Invalid JWT token trace: {}"+ e);
+        } catch (ExpiredJwtException e) {
+            System.out.println("Expired JWT token trace: {}"+ e);
+        } catch (UnsupportedJwtException e) {
+            System.out.println("Unsupported JWT token trace: {}"+ e);
+        } catch (IllegalArgumentException e) {
+            System.out.println("JWT token compact of handler are invalid trace: {}"+e);
+        }
+        return new GateWayResponseDto(false,null);
     }
 }

@@ -38,7 +38,7 @@ public class SecurityConfigurer   {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                    .authorizeRequests().antMatchers("/api/v1/auth/**").permitAll().
+                    .authorizeRequests().antMatchers("/api/v1/auth/**","/api/v1/users/getUserByEmail/**").permitAll().
                     anyRequest().authenticated().
                 and().exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

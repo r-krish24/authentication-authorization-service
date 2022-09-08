@@ -1,8 +1,6 @@
 package com.maveric.authenticationauthorizationservice.controller;
 
-import com.maveric.authenticationauthorizationservice.dto.AuthRequestDto;
-import com.maveric.authenticationauthorizationservice.dto.AuthResponseDto;
-import com.maveric.authenticationauthorizationservice.dto.UserDetailsDto;
+import com.maveric.authenticationauthorizationservice.dto.*;
 import com.maveric.authenticationauthorizationservice.exceptions.AccountCreationFailedException;
 import com.maveric.authenticationauthorizationservice.exceptions.InvalidCredentialsException;
 import com.maveric.authenticationauthorizationservice.feignconsumer.UserServiceConsumer;
@@ -76,7 +74,14 @@ public class AuthController {
         return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("auth/hello")
+    @PostMapping("auth/validate")
+    public ResponseEntity<GateWayResponseDto> validateToken(@Valid @RequestBody GateWayRequestDto gateWayRequestDto) {
+        System.out.println("Inside validateToken");
+        GateWayResponseDto resp = jwtTokenUtil.validateToken(gateWayRequestDto.getToken());
+        return new ResponseEntity<GateWayResponseDto>(resp, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/hello")
     public String sampleAPI() {
         return "Hello Maveric!";
     }
