@@ -23,19 +23,12 @@ public class ExceptionControllerAdvisor {
     public ErrorDto handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         ErrorDto errorDto = new ErrorDto();
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
         errorDto.setCode(BAD_REQUEST_CODE);
-        errorDto.setMessage(BAD_REQUEST_MESSAGE);
-        errorDto.setErrors(errors);
+        errorDto.setMessage(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
         return errorDto;
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+   /* @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ErrorDto handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException ex) {
@@ -43,7 +36,7 @@ public class ExceptionControllerAdvisor {
         errorDto.setCode(METHOD_NOT_ALLOWED_CODE);
         errorDto.setMessage(METHOD_NOT_ALLOWED_MESSAGE);
         return errorDto;
-    }
+    } */
 
     @ExceptionHandler(InvalidCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

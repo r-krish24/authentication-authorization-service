@@ -14,6 +14,7 @@ public class AuthRequestDto {
 
     @NotBlank(message = "Email Id is mandatory")
     private String email;
+
     @NotBlank(message = "Password is mandatory")
     private String password;
 }

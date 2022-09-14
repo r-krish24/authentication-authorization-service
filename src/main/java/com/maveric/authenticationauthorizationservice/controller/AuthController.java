@@ -34,6 +34,7 @@ public class AuthController {
     @Autowired
     UserServiceConsumer userServiceConsumer;
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("auth/login")
     public ResponseEntity<AuthResponseDto> authLogin(@Valid @RequestBody AuthRequestDto authRequestDto) throws Exception {
         System.out.println(authRequestDto.getEmail() +"---"+authRequestDto.getPassword());
@@ -57,6 +58,7 @@ public class AuthController {
         return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("auth/signup")
     public ResponseEntity<AuthResponseDto> authSignUp(@Valid @RequestBody UserDetailsDto userDetailsDto) {
         ResponseEntity<UserDetailsDto> userDetailsDtoRespEntity = userServiceConsumer.createUser(userDetailsDto);
@@ -74,6 +76,7 @@ public class AuthController {
         return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("auth/validate")
     public ResponseEntity<GateWayResponseDto> validateToken(@Valid @RequestBody GateWayRequestDto gateWayRequestDto) {
         System.out.println("Inside validateToken");
@@ -81,6 +84,7 @@ public class AuthController {
         return new ResponseEntity<GateWayResponseDto>(resp, HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/hello")
     public String sampleAPI() {
         return "Hello Maveric!";
