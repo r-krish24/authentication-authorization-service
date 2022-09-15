@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,20 +33,17 @@ public class AuthController {
     @Autowired
     UserServiceConsumer userServiceConsumer;
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    /* Checks user credentials for login and returns JWT token along with user information*/
     @PostMapping("auth/login")
-    public ResponseEntity<AuthResponseDto> authLogin(@Valid @RequestBody AuthRequestDto authRequestDto) throws Exception {
-        System.out.println(authRequestDto.getEmail() +"---"+authRequestDto.getPassword());
+    public ResponseEntity<AuthResponseDto> authLogin(@Valid @RequestBody AuthRequestDto authRequestDto) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequestDto.getEmail(), authRequestDto.getPassword())
             );
         }
         catch (BadCredentialsException e) {
-            System.out.println("Exception of bad creds");
             throw new InvalidCredentialsException("Incorrect username or password");
         }
-        System.out.println("------check1");
         final UserPrincipal userPrincipal = (UserPrincipal)userService
                 .loadUserByUsername(authRequestDto.getEmail());
 
@@ -55,10 +51,10 @@ public class AuthController {
         AuthResponseDto authResponseDto = new AuthResponseDto();
         authResponseDto.setToken(jwt);
         authResponseDto.setUser(userPrincipal.getUser());
-        return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(authResponseDto, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    /* Creates user for login and returns JWT token along with user information*/
     @PostMapping("auth/signup")
     public ResponseEntity<AuthResponseDto> authSignUp(@Valid @RequestBody UserDetailsDto userDetailsDto) {
         ResponseEntity<UserDetailsDto> userDetailsDtoRespEntity = userServiceConsumer.createUser(userDetailsDto);
@@ -71,20 +67,19 @@ public class AuthController {
             authResponseDto.setUser(userPrincipal.getUser());
         }
         else {
-                throw new AccountCreationFailedException("Account creation failed");
+            throw new AccountCreationFailedException("Account creation failed");
         }
-        return new ResponseEntity<AuthResponseDto>(authResponseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(authResponseDto, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    /* Validates the token */
     @PostMapping("auth/validate")
     public ResponseEntity<GateWayResponseDto> validateToken(@Valid @RequestBody GateWayRequestDto gateWayRequestDto) {
-        System.out.println("Inside validateToken");
         GateWayResponseDto resp = jwtTokenUtil.validateToken(gateWayRequestDto.getToken());
-        return new ResponseEntity<GateWayResponseDto>(resp, HttpStatus.CREATED);
+        return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    /* End point to test authentication through JWT token  */
     @GetMapping("/hello")
     public String sampleAPI() {
         return "Hello Maveric!";

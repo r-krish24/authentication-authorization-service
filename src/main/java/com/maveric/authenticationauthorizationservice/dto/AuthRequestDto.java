@@ -3,7 +3,6 @@ package com.maveric.authenticationauthorizationservice.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

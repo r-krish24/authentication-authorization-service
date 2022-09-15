@@ -2,15 +2,12 @@ package com.maveric.authenticationauthorizationservice.exceptions;
 
 import com.maveric.authenticationauthorizationservice.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.maveric.authenticationauthorizationservice.constants.Constants.*;
 
@@ -28,7 +25,7 @@ public class ExceptionControllerAdvisor {
         return errorDto;
     }
 
-   /* @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ErrorDto handleHttpRequestMethodNotSupportedException(
             HttpRequestMethodNotSupportedException ex) {
@@ -36,7 +33,7 @@ public class ExceptionControllerAdvisor {
         errorDto.setCode(METHOD_NOT_ALLOWED_CODE);
         errorDto.setMessage(METHOD_NOT_ALLOWED_MESSAGE);
         return errorDto;
-    } */
+    }
 
     @ExceptionHandler(InvalidCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
