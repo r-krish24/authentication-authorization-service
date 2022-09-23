@@ -2,7 +2,9 @@ package com.maveric.authenticationauthorizationservice.exceptions;
 
 import com.maveric.authenticationauthorizationservice.controller.AuthController;
 import com.maveric.authenticationauthorizationservice.dto.ErrorDto;
+import com.maveric.authenticationauthorizationservice.dto.UserDetailsDto;
 import feign.FeignException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -79,8 +81,21 @@ public class ExceptionControllerAdvisor {
     public ErrorDto handleHttpFeignException(
             FeignException ex) {
         ErrorDto errorDto = new ErrorDto();
-        errorDto.setCode(SERVICE_UNAVAILABLE_CODE);
-        errorDto.setMessage(SERVICE_UNAVAILABLE_MESSAGE);
+        if(ex.status()==503) {
+            errorDto.setCode(SERVICE_UNAVAILABLE_CODE);
+            errorDto.setMessage(SERVICE_UNAVAILABLE_MESSAGE);
+        }
+        else if(ex.status()==400)
+        {
+            errorDto.setCode(INCORRECT_URL_CODE);
+            String message = ex.getLocalizedMessage();
+            JSONObject jsonObject = new JSONObject (message.substring(message.indexOf("{"),message.indexOf("}")+1));
+            errorDto.setMessage(jsonObject.get("message").toString());
+        }
+        else {
+            errorDto.setCode(INTERNAL_SERVER_ERROR_CODE);
+            errorDto.setMessage(INTERNAL_SERVER_ERROR_MESSAGE);
+        }
         log.error(SERVICE_UNAVAILABLE_CODE+"->"+SERVICE_UNAVAILABLE_MESSAGE+"->"+ex.getMessage());
         return errorDto;
     }
