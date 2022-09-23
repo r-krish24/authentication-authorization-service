@@ -18,4 +18,11 @@ public class Constants {
     public static final String ACCOUNT_CREATION_FAILED_MESSAGE="Account creation failed! Kindly contact administrator.";
     public static final String INCORRECT_URL_CODE="404";
     public static final String INCORRECT_URL_MESSAGE="The server can not find the requested resource.";
+
+    public static final String SERVICE_UNAVAILABLE_CODE="503";
+    public static final String SERVICE_UNAVAILABLE_MESSAGE="Services down! Kindly contact administrator.";
+
+    public static final String INTERNAL_SERVER_ERROR_CODE="500";
+
+    public static final String INTERNAL_SERVER_ERROR_MESSAGE="Server could not resolve your request.";
 }

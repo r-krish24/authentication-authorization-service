@@ -1,7 +1,7 @@
 package com.maveric.authenticationauthorizationservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.maveric.authenticationauthorizationservice.constants.Type;
+import com.maveric.authenticationauthorizationservice.enums.Type;
 import lombok.*;
 
 @Getter
