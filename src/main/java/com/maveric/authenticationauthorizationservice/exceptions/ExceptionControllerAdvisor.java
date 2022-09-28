@@ -1,8 +1,5 @@
 package com.maveric.authenticationauthorizationservice.exceptions;
-
-import com.maveric.authenticationauthorizationservice.controller.AuthController;
 import com.maveric.authenticationauthorizationservice.dto.ErrorDto;
-import com.maveric.authenticationauthorizationservice.dto.UserDetailsDto;
 import feign.FeignException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -28,7 +25,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(BAD_REQUEST_CODE);
         errorDto.setMessage(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        log.error(BAD_REQUEST_CODE+"->"+ex.getBindingResult().getAllErrors().get(0).getDefaultMessage()+"->"+ex.getMessage());
+        log.error("{}->{}->{}",BAD_REQUEST_CODE,ex.getBindingResult().getAllErrors().get(0).getDefaultMessage(),ex.getMessage());
         return errorDto;
     }
 
@@ -39,7 +36,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(METHOD_NOT_ALLOWED_CODE);
         errorDto.setMessage(METHOD_NOT_ALLOWED_MESSAGE);
-        log.error(METHOD_NOT_ALLOWED_CODE+"->"+METHOD_NOT_ALLOWED_MESSAGE);
+        log.error("{}->{}",METHOD_NOT_ALLOWED_CODE,METHOD_NOT_ALLOWED_MESSAGE);
         return errorDto;
     }
 
@@ -50,7 +47,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(NOT_AUTHORIZED_CODE);
         errorDto.setMessage(NOT_AUTHORIZED_MESSAGE);
-        log.error(NOT_AUTHORIZED_CODE+"->"+NOT_AUTHORIZED_MESSAGE);
+        log.error("{} -> {}",NOT_AUTHORIZED_CODE,NOT_AUTHORIZED_MESSAGE);
         return errorDto;
     }
 
@@ -61,7 +58,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(USER_NOT_FOUND_CODE);
         errorDto.setMessage(USER_NOT_FOUND_MESSAGE);
-        log.error(USER_NOT_FOUND_CODE+"->"+USER_NOT_FOUND_MESSAGE);
+        log.error("{} ->{}",USER_NOT_FOUND_CODE,USER_NOT_FOUND_MESSAGE);
         return errorDto;
     }
 
@@ -72,7 +69,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(ACCOUNT_CREATION_FAILED_CODE);
         errorDto.setMessage(ACCOUNT_CREATION_FAILED_MESSAGE);
-        log.error(ACCOUNT_CREATION_FAILED_CODE+"->"+ACCOUNT_CREATION_FAILED_MESSAGE);
+        log.error("{}-> {}",ACCOUNT_CREATION_FAILED_CODE,ACCOUNT_CREATION_FAILED_MESSAGE);
         return errorDto;
     }
 
@@ -84,19 +81,22 @@ public class ExceptionControllerAdvisor {
         if(ex.status()==503) {
             errorDto.setCode(SERVICE_UNAVAILABLE_CODE);
             errorDto.setMessage(SERVICE_UNAVAILABLE_MESSAGE);
+            log.error("{}->{} ->{}",SERVICE_UNAVAILABLE_CODE,SERVICE_UNAVAILABLE_MESSAGE,ex.getMessage());
         }
         else if(ex.status()==400)
         {
-            errorDto.setCode(INCORRECT_URL_CODE);
+            errorDto.setCode(BAD_REQUEST_CODE);
             String message = ex.getLocalizedMessage();
             JSONObject jsonObject = new JSONObject (message.substring(message.indexOf("{"),message.indexOf("}")+1));
             errorDto.setMessage(jsonObject.get("message").toString());
+            log.error("{}- >{}",BAD_REQUEST_CODE,ex.getMessage());
         }
         else {
             errorDto.setCode(INTERNAL_SERVER_ERROR_CODE);
             errorDto.setMessage(INTERNAL_SERVER_ERROR_MESSAGE);
+            log.error("{}-> {}->{}",INTERNAL_SERVER_ERROR_CODE,INTERNAL_SERVER_ERROR_MESSAGE,ex.getMessage());
         }
-        log.error(SERVICE_UNAVAILABLE_CODE+"->"+SERVICE_UNAVAILABLE_MESSAGE+"->"+ex.getMessage());
+
         return errorDto;
     }
 
@@ -107,7 +107,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(SERVICE_UNAVAILABLE_CODE);
         errorDto.setMessage(SERVICE_UNAVAILABLE_MESSAGE);
-        log.error(SERVICE_UNAVAILABLE_CODE+"->"+SERVICE_UNAVAILABLE_MESSAGE+"->"+ex.getMessage());
+        log.error("{}-{}-{}",SERVICE_UNAVAILABLE_CODE,SERVICE_UNAVAILABLE_MESSAGE,ex.getMessage());
         return errorDto;
     }
 
@@ -117,7 +117,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(INTERNAL_SERVER_ERROR_CODE);
         errorDto.setMessage(INTERNAL_SERVER_ERROR_MESSAGE);
-        log.error(INTERNAL_SERVER_ERROR_CODE+"->"+INTERNAL_SERVER_ERROR_MESSAGE+"->"+exception.getMessage());
+        log.error("{}--{}--{}",INTERNAL_SERVER_ERROR_CODE,INTERNAL_SERVER_ERROR_MESSAGE,exception.getMessage());
         return errorDto;
     }
 
