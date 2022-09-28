@@ -35,8 +35,8 @@ public class SecurityConfigurer   {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,JwtRequestFilter jwtRequestFilter) throws Exception {
         http.cors().disable();
-        http.csrf().disable()
-                .authorizeRequests().antMatchers("/api/v1/auth/**","/api/v1/users/getUserByEmail/**").permitAll()
+        http.csrf().disable();
+                http.authorizeRequests().antMatchers("/api/v1/auth/**","/api/v1/users/getUserByEmail/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .anyRequest().authenticated().
                 and().exceptionHandling().and().sessionManagement()

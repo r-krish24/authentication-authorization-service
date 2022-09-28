@@ -1,6 +1,5 @@
 package com.maveric.authenticationauthorizationservice.util;
 
-import com.maveric.authenticationauthorizationservice.controller.AuthController;
 import com.maveric.authenticationauthorizationservice.dto.GateWayResponseDto;
 import com.maveric.authenticationauthorizationservice.model.UserPrincipal;
 import io.jsonwebtoken.*;
@@ -48,7 +47,7 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String subject,String id) {
         log.info("Token creation!");
         return Jwts.builder().setClaims(claims).setId(id).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 7)) // 7 mins
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 

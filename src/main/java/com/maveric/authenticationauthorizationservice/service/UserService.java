@@ -1,6 +1,5 @@
 package com.maveric.authenticationauthorizationservice.service;
 
-import com.maveric.authenticationauthorizationservice.controller.AuthController;
 import com.maveric.authenticationauthorizationservice.dto.UserDetailsDto;
 import com.maveric.authenticationauthorizationservice.exceptions.UserNotFoundException;
 import com.maveric.authenticationauthorizationservice.feignconsumer.UserServiceConsumer;
